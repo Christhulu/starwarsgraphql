@@ -74,7 +74,17 @@ export default function Ship({ ship }) {
           >
             <div className="surface-0">
               <ul className="list-none p-0 m-0">
-                <li className="display:block align-items-center py-3 px-2 border-top-1 border-300">
+              <li className="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 border-300 flex-wrap">
+                        <div className="text-500 w-6 md:w-2 font-medium">
+                          Bio
+                        </div>
+                        <div className="text-900 w-full md:w-4 md:flex-order-0 flex-order-1">
+                          {"Let's"} take a look into the build of the {ship.name}. This starship has been featured in {ship.filmConnection.films.length} film(s). {ship.costInCredits !=null ?" This ship costs a considerable sum of: ": " This ship does not have a known cost."}{ship.costInCredits !=null ? ship.costInCredits: ""}
+                          {ship.maxAtmospheringSpeed !=null ?" This ship boasts an impressive max atmosphering speed of: ": " This ship does not have a known cost. "}{ship.maxAtmospheringSpeed !=null ?ship.maxAtmospheringSpeed + " MGLT/hr. ": ""}
+                          This ship is an impressive specimen, requiring a crew of {ship.crew}. Lastly, it supports {ship.passengers !="n/a"? ship.passengers: "an unknown amount of "} passengers.
+                        </div>
+                      </li>
+                <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
                   <div className="text-500 w-6 md:w-2 font-medium">
                     Model
                   </div>
@@ -82,7 +92,7 @@ export default function Ship({ ship }) {
                     {ship.model}
                   </div>
                 </li>
-                <li className="display:block align-items-center py-3 px-2 border-top-1 border-300">
+                <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
                   <div className="text-500 w-6 md:w-2 font-medium">
                     Starship Class
                   </div>
@@ -90,7 +100,7 @@ export default function Ship({ ship }) {
                     {ship.starshipClass}
                   </div>
                 </li>
-                <li className="display:block align-items-center py-3 px-2 border-top-1 border-300">
+                <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
                   <div className="text-500 w-6 md:w-2 font-medium">
                     Cost in Credits
                   </div>
@@ -98,7 +108,7 @@ export default function Ship({ ship }) {
                     {ship.costInCredits}
                   </div>
                 </li>
-                <li className="block align-items-center py-3 px-2 border-top-1 border-300">
+                <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
                   <div className="text-500 w-6 md:w-2 font-medium">Max Atmosphering Speed (MGLT/hr)</div>
                   <div
                     className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
@@ -107,7 +117,7 @@ export default function Ship({ ship }) {
                     {ship.maxAtmospheringSpeed}
                   </div>
                 </li>
-                <li className="block align-items-center py-3 px-2 border-top-1 border-300">
+                <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
                   <div className="text-500 w-6 md:w-2 font-medium">Films</div>
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
                     <ul>
@@ -128,7 +138,7 @@ export default function Ship({ ship }) {
                     Pilots
                   </div>
                   <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
-                    <ul>
+                    {ship.pilotConnection.pilots.length > 0?<ul>
                       {ship.pilotConnection.pilots.map((pilot) => {
                         return (
                           <Chip
@@ -138,7 +148,7 @@ export default function Ship({ ship }) {
                           ></Chip>
                         );
                       })}
-                    </ul>
+                    </ul>:<div className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">No known pilots</div>}
                   </div>
                 </li>
               </ul>

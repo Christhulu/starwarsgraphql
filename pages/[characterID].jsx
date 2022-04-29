@@ -69,7 +69,7 @@ export default function Character({ character }) {
         </p>
         <Fragment>
           <Card
-            className="block flex-auto flex-grow-1 align-self-stretch border-round-top border-3"
+            className="block flex-auto flex-grow-1 align-self-stretch border-round-top border-3 shadow-8"
           >
             <div className="surface-0">
               <ul className="list-none p-0 m-0">

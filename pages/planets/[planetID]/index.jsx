@@ -17,6 +17,7 @@ import { Chip } from "primereact/chip";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Sidebar } from "primereact/sidebar";
+import { Ripple } from 'primereact/ripple';
 
 const client = new ApolloClient({
   uri: "http://localhost:59550/",
@@ -70,7 +71,7 @@ export default function Planet({ planet }) {
         <Fragment>
           <Card
             key={planet.id}
-            className="block flex-auto flex-grow-1 align-self-stretch border-round-top border-3"
+            className="block flex-auto flex-grow-1 align-self-stretch border-round-top border-3 shadow-8"
           >
             <div className="surface-0">
               <ul className="list-none p-0 m-0">

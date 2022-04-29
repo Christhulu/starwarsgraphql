@@ -84,7 +84,7 @@ export default function Home({ characters }) {
           <Fragment>
             {characters.map((character) => {
               return (
-                <Card key={character.name} className="card">
+                <Card key={character.name} className="block flex-auto flex-grow-1 align-self-stretch border-round-top border-3 shadow-8">
                   <div className="surface-0">
                     <div className="font-medium text-3xl text-900 mb-3">
                       <Link href={`/${character.id}`}>{character.name}</Link>
@@ -161,7 +161,7 @@ export default function Home({ characters }) {
 
           <h1>Star Wars Info but in DataTable Form</h1>
 
-          <Card>
+          <Card className="block flex-auto flex-grow-1 align-self-stretch">
             <div style={{ textAlign: "left" }}>
               <Button
                 type="button"

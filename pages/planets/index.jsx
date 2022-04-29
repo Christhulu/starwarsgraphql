@@ -17,6 +17,7 @@ import { Chip } from "primereact/chip";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Sidebar } from "primereact/sidebar";
+import { Ripple } from 'primereact/ripple';
 
 export default function PlanetPage({ planets }) {
   console.log("planets", planets);
@@ -45,7 +46,7 @@ export default function PlanetPage({ planets }) {
       <Sidebar
         visible={activeSidebar}
         onHide={() => setActiveSidebar(false)}
-        className="bg-secondary"
+        className="bg-secondary p-ripple"
       >
         <h1>
           <Link href="/">View Characters</Link>
@@ -75,14 +76,19 @@ export default function PlanetPage({ planets }) {
               return (
                 <Card
                   key={planet.id}
-                  className="block flex-auto flex-grow-1 align-self-stretch border-round-top border-3"
+                  className="block flex-auto flex-grow-1 align-self-stretch border-round-top border-3 shadow-8"
                 >
+                  
                   <div className="surface-0">
                     <div className="font-large text-3xl text-900 mb-3">
                       <Link href={`/planets/${planet.id}`}>{planet.name}</Link>
                     </div>
 
-                    <div className="text-500 mb-5">Future Description</div>
+                    <div className="font-large text-900 mb-3">
+                          Welcome to {planet.name}. {planet.name} has a diameter of {planet.diameter} kilometers. {planet.name}{"'"}s gravity is rated at: {planet.gravity}.
+                          They are an interesting character, known for being in {planet.filmConnection.films.length} films.
+                          There are currently {planet.population} people living on {planet.name}. Maybe you will become the next.
+                    </div>
                     <ul className="list-none p-0 m-0">
                       <li className="display:block align-items-center py-3 px-2 border-top-1 border-300">
                         <div className="text-500 w-6 md:w-2 font-medium">
@@ -176,6 +182,7 @@ export default function PlanetPage({ planets }) {
                 iconPos="left"
                 label="CSV"
                 onClick={() => exportData()}
+                className="p-ripple"
               ></Button>
             </div>
             <DataTable value={planets} size="large" ref={planetTable}>

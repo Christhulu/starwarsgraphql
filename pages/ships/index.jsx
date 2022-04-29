@@ -17,6 +17,7 @@ import { Chip } from "primereact/chip";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Sidebar } from "primereact/sidebar";
+import { Ripple } from "primereact/ripple";
 
 export default function ShipPage({ ships }) {
   console.log('ships', ships);
@@ -69,13 +70,22 @@ export default function ShipPage({ ships }) {
           <Fragment>
             {ships.map((ship) => {
               return (
-                <Card key={ship.id} className="block flex-auto flex-grow-1 align-self-stretch">
+                <Card key={ship.id} className="block flex-auto flex-grow-1 align-self-stretch border-round-top border-3 shadow-8">
                   <div className="surface-0">
                     <div className="font-medium text-3xl text-900 mb-3">
                       <Link href={`/ships/${ship.id}`}>{ship.name}</Link>
                     </div>
-                    <div className="text-500 mb-5">Future Description</div>
                     <ul className="list-none p-0 m-0">
+                    <li className="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 border-300 flex-wrap">
+                        <div className="text-500 w-6 md:w-2 font-medium">
+                          Bio
+                        </div>
+                        <div className="text-900 w-full md:w-4 md:flex-order-0 flex-order-1">
+                          {"Let's"} take a look into the build of the {ship.name}. This starship has been featured in {ship.filmConnection.films.length} film(s). {ship.costInCredits !=null ?" This ship costs a considerable sum of: ": " This ship does not have a known cost."}{ship.costInCredits !=null ? ship.costInCredits: ""}
+                          {ship.maxAtmospheringSpeed !=null ?" This ship boasts an impressive max atmosphering speed of: ": " This ship does not have a known cost. "}{ship.maxAtmospheringSpeed !=null ?ship.maxAtmospheringSpeed + " MGLT/hr. ": ""}
+                          This ship is an impressive specimen, requiring a crew of {ship.crew}. Lastly, it supports {ship.passengers} passengers.
+                        </div>
+                      </li>
                       <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
                         <div className="text-500 w-6 md:w-2 font-medium">
                           Model
@@ -129,22 +139,6 @@ export default function ShipPage({ ships }) {
                           {ship.maxAtmospheringSpeed != null? ship.maxAtmospheringSpeed: "Unknown"}
                         </div>
                       </li>
-                      <li className="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 border-300 flex-wrap">
-                        <div className="text-500 w-6 md:w-2 font-medium">
-                          Plot
-                        </div>
-                        <div className="text-900 w-full md:w-4 md:flex-order-0 flex-order-1">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua. Ut enim ad minim veniam, quis
-                          nostrud exercitation ullamco laboris nisi ut aliquip
-                          ex ea commodo consequat. Duis aute irure dolor in
-                          reprehenderit in voluptate velit esse cillum dolore eu
-                          fugiat nulla pariatur. Excepteur sint occaecat
-                          cupidatat non proident, sunt in culpa qui officia
-                          deserunt mollit anim id est laborum.
-                        </div>
-                      </li>
                     </ul>
                   </div>
                 </Card>
@@ -154,7 +148,7 @@ export default function ShipPage({ ships }) {
 
           <h1>Star Wars Info but in DataTable Form</h1>
 
-          <Card>
+          <Card className="block flex-auto flex-grow-1 align-self-stretch p-ripple">
             <div style={{ textAlign: "left" }}>
               <Button
                 type="button"
