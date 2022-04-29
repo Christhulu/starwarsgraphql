@@ -1,10 +1,8 @@
-//NextJS imports
+//Next Imports
 import Head from "next/head";
 import Image from "next/image";
+import styles from "../../styles/Home.module.css";
 import Link from "next/link";
-
-//CSS imports
-import styles from "../styles/Home.module.css";
 
 //GraphQL/Apollo imports
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
@@ -19,100 +17,88 @@ import { Chip } from "primereact/chip";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Sidebar } from "primereact/sidebar";
-import { Toast } from "primereact/toast";
-import { InputText } from "primereact/inputtext";
 
-export default function Home({ characters }) {
-  console.log("characters", characters);
+export default function PlanetPage({ planets }) {
+  console.log("planets", planets);
 
   //Testing export
-  const dt = useRef(null);
+  const planetTable = useRef(null);
 
   const exportData = (selectionOnly) => {
-    dt.current.exportCSV({ selectionOnly });
+    planetTable.current.exportCSV({ selectionOnly });
   };
 
+  const [activeSidebar, setActiveSidebar] = useState(false);
   const [text, setText] = useState("");
   const toastRef = useRef();
 
-  //Sidebar
-  const [activeSidebar, setActiveSidebar] = useState(false);
-
   return (
     <Fragment>
-      <div className="topbar p-shadow-2 p-py-2 p-px-3">
+      <div className="topbar bg-secondary p-shadow-2 p-py-2 p-px-3">
         <Button
           icon="pi pi-bars"
-          className="p-button-rounded"
+          className="p-button-rounded bg-secondary"
           onClick={() => setActiveSidebar(true)}
         ></Button>
       </div>
+
+      <Sidebar
+        visible={activeSidebar}
+        onHide={() => setActiveSidebar(false)}
+        className="bg-secondary"
+      >
+        <h1>
+          <Link href="/">View Characters</Link>
+        </h1>
+        <h1>
+          <Link href="/ships">View Ships</Link>
+        </h1>
+        <h1>
+          <Link href="/planets">View Planets</Link>
+        </h1>
+      </Sidebar>
       <div className={styles.container}>
         <Head>
           <title>Star Wars Demo</title>
-          <meta
-            name="description"
-            content="Star Wars Demo Application in Next.JS"
-          />
+          <meta name="description" content="Star Wars Demo Application in Next.JS" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <main className={styles.main}>
-          <Toast ref={toastRef}></Toast>
-
-          <Sidebar
-            visible={activeSidebar}
-            onHide={() => setActiveSidebar(false)}
-          >
-            <h1>
-              <Link href="/">View Characters</Link>
-            </h1>
-            <h1>
-              <Link href="/ships">View Ships</Link>
-            </h1>
-            <h1>
-              <Link href="/planets">View Planets</Link>
-            </h1>
-          </Sidebar>
-
-          <h1 className={styles.title}>Star Wars Characters</h1>
-
+          <h1 className={styles.title}>Star Wars Planets</h1>
           <p className={styles.description}>
             Experimenting with using GraphQL, NextJS, and PrimeReact
           </p>
 
           <Fragment>
-            {characters.map((character) => {
+            {planets.map((planet) => {
               return (
-                <Card key={character.name} className="card">
+                <Card
+                  key={planet.id}
+                  className="block flex-auto flex-grow-1 align-self-stretch border-round-top border-3"
+                >
                   <div className="surface-0">
-                    <div className="font-medium text-3xl text-900 mb-3">
-                      <Link href={`/${character.id}`}>{character.name}</Link>
+                    <div className="font-large text-3xl text-900 mb-3">
+                      <Link href={`/planets/${planet.id}`}>{planet.name}</Link>
                     </div>
+
+                    <div className="text-500 mb-5">Future Description</div>
                     <ul className="list-none p-0 m-0">
-                      <li className="flex align-items-center py-3 px-2 border-top-1 border-300">
+                      <li className="display:block align-items-center py-3 px-2 border-top-1 border-300">
                         <div className="text-500 w-6 md:w-2 font-medium">
-                          Birth Year
+                          Population
                         </div>
                         <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
-                          {character.birthYear}
+                          {planet.population}
                         </div>
                       </li>
-                      <li className="flex align-items-center py-3 px-2 border-top-1 border-300">
-                        <div className="text-500 w-6 md:w-2 font-medium">
-                          Homeworld
-                        </div>
-                        <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
-                          {character.homeworld.name}
-                        </div>
-                      </li>
-                      <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
+                      <li className="block align-items-center py-3 px-2 border-top-1 border-300">
                         <div className="text-500 w-6 md:w-2 font-medium">
                           Films
                         </div>
                         <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
                           <ul>
-                            {character.filmConnection.films.map((film) => {
+                            {planet.filmConnection.films.map((film) => {
                               return (
                                 <Chip
                                   key={film.title}
@@ -124,32 +110,53 @@ export default function Home({ characters }) {
                           </ul>
                         </div>
                       </li>
-                      <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
+                      <li className="block align-items-center py-3 px-2 border-top-1 border-300">
                         <div className="text-500 w-6 md:w-2 font-medium">
-                          Hair Color
+                          Residents
                         </div>
                         <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
-                          {character.hairColor}
+                          <ul>
+                            {planet.residentConnection.residents.map(
+                              (resident) => {
+                                return (
+                                  <Chip
+                                    key={resident.name}
+                                    label={resident.name}
+                                    icon="pi pi-user"
+                                  ></Chip>
+                                );
+                              }
+                            )}
+                          </ul>
                         </div>
                       </li>
-                      <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
+                      <li className="block align-items-center py-3 px-2 border-top-1 border-300">
                         <div className="text-500 w-6 md:w-2 font-medium">
-                          Height (cm)
+                          Climates
                         </div>
                         <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
-                          {character.height}
+                          <ul>
+                            {planet.climates.map((climate) => {
+                              return (
+                                <Chip
+                                  key={climate}
+                                  label={climate}
+                                  icon="pi pi-star"
+                                ></Chip>
+                              );
+                            })}
+                          </ul>
                         </div>
                       </li>
-                      <li className="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 border-300 flex-wrap">
+                      <li className="block align-items-center py-3 px-2 border-top-1 border-300">
                         <div className="text-500 w-6 md:w-2 font-medium">
-                          Bio
+                          Gravity
                         </div>
-                        <div className="text-900 w-full md:w-4 md:flex-order-0 flex-order-1">
-                          {character.name} was born on {character.birthYear} on the planet of {character.homeworld.name}.
-                          They eventually grew to become {character.height} cm tall, give or take a few centimeters. 
-                          They are an interesting character, known for being in {character.filmConnection.films.length} films.
-                          They are affiliated with {character.starshipConnection.starships.length} starships.
-                          This is where the story of {character.name} continues...{"unless they're dead"}
+                        <div
+                          className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1"
+                          icon="pi pi-star"
+                        >
+                          {planet.gravity}
                         </div>
                       </li>
                     </ul>
@@ -161,7 +168,7 @@ export default function Home({ characters }) {
 
           <h1>Star Wars Info but in DataTable Form</h1>
 
-          <Card>
+          <Card className="block flex-auto flex-grow-1 align-self-stretch">
             <div style={{ textAlign: "left" }}>
               <Button
                 type="button"
@@ -171,11 +178,11 @@ export default function Home({ characters }) {
                 onClick={() => exportData()}
               ></Button>
             </div>
-            <DataTable value={characters} size="large" ref={dt}>
-              <Column header="(Name): " field="name" sortable></Column>
-              <Column header="(Date of Birth): " field="birthYear"></Column>
-              <Column header="(Hair Color): " field="hairColor"></Column>
-              <Column header="(Height): " field="height" sortable></Column>
+            <DataTable value={planets} size="large" ref={planetTable}>
+              <Column header="Name" field="name" sortable></Column>
+              <Column header="Diameter" field="diameter" sortable></Column>
+              <Column header="Gravity" field="gravity" sortable></Column>
+              <Column header="Population" field="population" sortable></Column>
             </DataTable>
           </Card>
         </main>
@@ -210,25 +217,27 @@ export async function getStaticProps() {
 
   const { data } = await client.query({
     query: gql`
-      query GetPeople {
-        allPeople(first: 10) {
-          people {
-            id
-            name
-            homeworld {
-              name
-            }
-            birthYear
-            hairColor
-            height
+      query GetPlanets {
+        allPlanets(first: 10) {
+          planets {
+            id,
+            name,
+            population,
+            diameter,
+            gravity,
+            climates,
             filmConnection {
               films {
                 title
               }
-            }
-            starshipConnection {
-              starships {
+            },
+            residentConnection {
+              residents {
                 name
+                birthYear
+                homeworld {
+                  id
+                }
               }
             }
           }
@@ -237,11 +246,9 @@ export async function getStaticProps() {
     `,
   });
 
-  console.log("data", data);
-
   return {
     props: {
-      characters: data.allPeople.people,
+      planets: data.allPlanets.planets,
     },
   };
 }
